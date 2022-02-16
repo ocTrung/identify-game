@@ -15,4 +15,5 @@ Todo:
 - add styling
 - add play again button
 - add feedback for correct/incorrect
+- new order of questions for new game
 - progress bar 
