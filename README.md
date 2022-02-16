@@ -1,4 +1,4 @@
-# Identify the Game Quiz
+# Identify the Game Quiz 👾
 
 What:
 A quiz game that tests your ability to identify games based on images.
