@@ -17,18 +17,19 @@ const questions = [
   }
 ]
 
+// list of game titles to use as answer choices
 const games = questions.map(({game}) => {
   return game
 })
 
+let index = 0
+let correctCount = 0
 const questionDisplay = document.getElementById('question-display')
 const answersDisplay = document.getElementById('answers-display')
 const imgDisplay = document.getElementById('img-display')
-const startButton = document.getElementById('start-btn')
 const quizContainer = document.querySelector('.quiz-container')
 const menu = document.querySelector('.menu')
-let index = 0
-let correctCount = 0
+const startButton = document.getElementById('start-btn')
 startButton.onclick = init
 
 function init() {
@@ -40,24 +41,10 @@ function init() {
   displayNewQuestion()
 }
 
-const onAnswerButtonClick = (correct, choice) => {
-  if (choice === correct) {
-    correctCount++
-  }
-  if (isGameOver()) {
-    displayResults()
-  } else {
-    index++
-    displayNewQuestion()
-  }
-  
-}
-
 function displayNewQuestion() {
   // apply image of current question to html
   imgDisplay.src = questions[index].img
   // get a random set of 4 choices from all possible answers. Includes correct answer.
-  // this is a list of indexes
   let answerIndexList = getRandomAnswers(index)
   // reference to correct answer using list of questions + index
   const correct = questions[index].game
@@ -75,6 +62,7 @@ function displayNewQuestion() {
   })
 }
 
+// Returns: list of 4 indexes for respective answer
 function getRandomAnswers(correctIndex) {
   let getRandIndex = () => Math.floor(Math.random() * questions.length)
   let randomAnswers = [correctIndex]
@@ -92,6 +80,20 @@ function getRandomAnswers(correctIndex) {
 
 function sortAnswersRandom(list) {
   return list.sort((a,b) => Math.floor(Math.random() * 2) - 1)
+}
+
+
+const onAnswerButtonClick = (correct, choice) => {
+  if (choice === correct) {
+    correctCount++
+  }
+  if (isGameOver()) {
+    displayResults()
+  } else {
+    index++
+    displayNewQuestion()
+  }
+  
 }
 
 function isGameOver() {
