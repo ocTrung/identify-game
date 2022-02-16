@@ -5,18 +5,22 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <style>
-    img {
-      max-width: 10rem;
-    }
-  </style>
+  <link rel="stylesheet" href="./output.css">
   <script defer src="../src/script.js"></script>
 </head>
 <body>
-  <div class="container">
+  <div class="quiz-container hidden">
     <h2 id="question-display">What game is this from?</h2>
-    <img id="img-display" src="">
+    <img class="w-40" id="img-display" src="">
     <div id="answers-display"></div>
+  </div>
+  <div class="menu"> 
+    <h2 id="title">Welcome</h2>
+    <button id="start-btn">Start</button>
+  </div>
+  <div class="results-container hidden">
+    <h2>Results</h2>
+    <p id="results"></p>
   </div>
 </body>
 </html>
