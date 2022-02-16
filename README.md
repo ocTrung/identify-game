@@ -14,3 +14,5 @@ Interesting things:
 Todo:
 - add styling
 - add play again button
+- add feedback for correct/incorrect
+- progress bar 
