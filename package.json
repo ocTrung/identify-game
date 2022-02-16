@@ -1,0 +1,17 @@
+{
+  "name": "id-the-game",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build-css": "npx tailwindcss -i ./src/input.css -o ./public/output.css",
+    "build-css-w": "npx tailwindcss -i ./src/input.css -o ./public/output.css",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "tailwindcss": "^3.0.22"
+  }
+}
