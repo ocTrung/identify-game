@@ -17,9 +17,6 @@ const gameImages = [
   }
 ]
 
-const startButton = document.getElementById('start-btn')
-startButton.onclick = init
-
 const menu = document.querySelector('.menu')
 const quizContainer = document.querySelector('.quiz-container')
 let index = 0
@@ -34,6 +31,9 @@ const init = () => {
   correctCount = 0
   displayNewQuestion()
 }
+
+const startButton = document.getElementById('start-btn')
+startButton.onclick = init
 
 const imgDisplay = document.getElementById('img-display')
 const answersDisplay = document.getElementById('answers-display')
