@@ -1,4 +1,4 @@
-const questions = [
+const gameImages = [
   {
     img: 'https://i.imgur.com/LrBgi5B.png',
     game: 'Ocarina of Time'
@@ -17,45 +17,42 @@ const questions = [
   }
 ]
 
-// list of game titles to use as answer choices
-const games = questions.map(({game}) => {
-  return game
-})
-
-let index = 0
-let correctCount = 0
-const questionDisplay = document.getElementById('question-display')
-const answersDisplay = document.getElementById('answers-display')
-const imgDisplay = document.getElementById('img-display')
-const quizContainer = document.querySelector('.quiz-container')
-const menu = document.querySelector('.menu')
 const startButton = document.getElementById('start-btn')
 startButton.onclick = init
 
-function init() {
+const menu = document.querySelector('.menu')
+const quizContainer = document.querySelector('.quiz-container')
+let index = 0
+let correctCount = 0
+
+// Starts a fresh game
+const init = () => {
   menu.classList.add('hidden')
   quizContainer.classList.remove('hidden')
-
+  
   index = 0
   correctCount = 0
   displayNewQuestion()
 }
 
-function displayNewQuestion() {
-  // apply image of current question to html
-  imgDisplay.src = questions[index].img
-  // get a random set of 4 choices from all possible answers. Includes correct answer.
-  let answerIndexList = getRandomAnswers(index)
-  // reference to correct answer using list of questions + index
-  const correct = questions[index].game
+const imgDisplay = document.getElementById('img-display')
+const answersDisplay = document.getElementById('answers-display')
+const gameTitles = gameImages.map(({game}) => game)
 
-  // remove previous choices
+const displayNewQuestion = () => {
+  // Display image based on index
+  imgDisplay.src = gameImages[index].img
+  // Correct answer + random 3 choices
+  let answerIndexList = getRandomAnswers(index)
+  // Reference to correct answer
+  const correct = gameImages[index].game
+  // Remove previous choices
   answersDisplay.innerHTML = ''
 
-  // generate buttons for choices
+  // Generate buttons for choices
   answerIndexList.forEach(ansIdx => {
     const answerButton = document.createElement('button')
-    const choice = games[ansIdx]
+    const choice = gameTitles[ansIdx]
     answerButton.textContent = choice
     answerButton.addEventListener('click', () => onAnswerButtonClick(correct, choice))
     answersDisplay.append(answerButton)
@@ -63,8 +60,8 @@ function displayNewQuestion() {
 }
 
 // Returns: list of 4 indexes for respective answer
-function getRandomAnswers(correctIndex) {
-  let getRandIndex = () => Math.floor(Math.random() * questions.length)
+const getRandomAnswers = (correctIndex) => {
+  let getRandIndex = () => Math.floor(Math.random() * gameImages.length)
   let randomAnswers = [correctIndex]
   const numChoices = 4
   let randIndex
@@ -78,10 +75,9 @@ function getRandomAnswers(correctIndex) {
   return sortAnswersRandom(randomAnswers)
 }
 
-function sortAnswersRandom(list) {
+const sortAnswersRandom = (list) => {
   return list.sort((a,b) => Math.floor(Math.random() * 2) - 1)
 }
-
 
 const onAnswerButtonClick = (correct, choice) => {
   if (choice === correct) {
@@ -93,21 +89,18 @@ const onAnswerButtonClick = (correct, choice) => {
     index++
     displayNewQuestion()
   }
-  
 }
 
-function isGameOver() {
-  console.log('index', index)
-  console.log('length', questions.length)
-  return index === questions.length -1
+const isGameOver = () => {
+  return index === gameImages.length -1
 }
 
-function displayResults() {
+const displayResults = () => {
   const results = document.getElementById('results')
   const resultsContainer = document.querySelector('.results-container')
 
   quizContainer.classList.add('hidden')
   resultsContainer.classList.remove('hidden')
 
-  results.textContent = `You got ${correctCount}/${questions.length} correct`
+  results.textContent = `You got ${correctCount}/${gameImages.length} correct`
 }
