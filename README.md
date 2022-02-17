@@ -12,8 +12,11 @@ Interesting things:
 
 
 Todo:
-- add styling
 - add play again button
-- add feedback for correct/incorrect
+- style results display
 - new order of questions for new game
-- progress bar 
+
+
+completed:
+- add feedback for correct/incorrect
+- add styling
