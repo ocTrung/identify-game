@@ -39,24 +39,73 @@ const imgDisplay = document.getElementById('img-display')
 const answersDisplay = document.getElementById('answers-display')
 const gameTitles = gameImages.map(({game}) => game)
 
+const nextButton = document.getElementById('next-button')
+const handleNext = () => {
+  if (isGameOver()) {
+    displayResults()
+  } else {
+    index++
+    displayNewQuestion()
+  }
+}
+nextButton.addEventListener('click', handleNext)
+const displayNextButton = () => {
+  nextButton.classList.remove('hidden')  
+}
+
+const form = document.querySelector('form')
+const submitButton = document.getElementById('submit-button')
+
+const handleCorrect = () => {
+  correctCount++
+}
+
+const questionDisplay = document.getElementById('question-display')
+
 const displayNewQuestion = () => {
   // Display image based on index
   imgDisplay.src = gameImages[index].img
+  // Hide next button
+  nextButton.classList.add('hidden')
+  // Display submit button
+  submitButton.classList.remove('hidden')
   // Correct answer + random 3 choices
   let answerIndexList = getRandomAnswers(index)
   // Reference to correct answer
   const correct = gameImages[index].game
-  // Remove previous choices
-  answersDisplay.innerHTML = ''
-
-  // Generate buttons for choices
-  answerIndexList.forEach(ansIdx => {
-    const answerButton = document.createElement('button')
-    const choice = gameTitles[ansIdx]
-    answerButton.textContent = choice
-    answerButton.addEventListener('click', () => onAnswerButtonClick(correct, choice))
-    answersDisplay.append(answerButton)
+  
+  // Generate radio buttons for choices
+  answerIndexList.forEach((answerIndex , index) => {
+    const choice = document.getElementById(`choice${index + 1}`)
+    const label = document.getElementById(`label-choice${index + 1}`)
+    
+    choice.setAttribute('value', gameTitles[answerIndex])
+    label.innerText = gameTitles[answerIndex]
+    
+    // Check first radio button as default
+    if (index === 0)
+      choice.setAttribute('checked', true)
   })
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    let data = new FormData(form)
+    let answer
+  
+    // get checked value
+    for (const [name, value] of data) {
+      answer = value
+    }
+  
+    if (answer === correct) {
+      handleCorrect()
+    } 
+    
+    submitButton.classList.add('hidden')
+    displayNextButton()
+  }
+  
+  form.addEventListener('submit', handleSubmit, false)
 }
 
 // Returns: list of 4 indexes for respective answer
@@ -77,18 +126,6 @@ const getRandomAnswers = (correctIndex) => {
 
 const sortAnswersRandom = (list) => {
   return list.sort((a,b) => Math.floor(Math.random() * 2) - 1)
-}
-
-const onAnswerButtonClick = (correct, choice) => {
-  if (choice === correct) {
-    correctCount++
-  }
-  if (isGameOver()) {
-    displayResults()
-  } else {
-    index++
-    displayNewQuestion()
-  }
 }
 
 const isGameOver = () => {
