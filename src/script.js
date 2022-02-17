@@ -60,53 +60,86 @@ const handleCorrect = () => {
   correctCount++
 }
 
-const questionDisplay = document.getElementById('question-display')
+const choice1 = document.getElementById('choice1')
+const choice2 = document.getElementById('choice2')
+const choice3 = document.getElementById('choice3')
+const choice4 = document.getElementById('choice4')
+const label1 = document.getElementById('label-choice1')
+const label2 = document.getElementById('label-choice2')
+const label3 = document.getElementById('label-choice3')
+const label4 = document.getElementById('label-choice4')
+const choices = [ {'choice':choice1, 'label':label1},
+                  {'choice':choice2, 'label':label2},
+                  {'choice':choice3, 'label':label3},
+                  {'choice':choice4, 'label':label4},]
 
-const displayNewQuestion = () => {
-  // Display image based on index
-  imgDisplay.src = gameImages[index].img
+const handleIncorrect = (userAnswer) => {
+  for (const {choice, label} of choices) {
+    if (choice.checked && choice.value === userAnswer) {
+      label.textContent += ' incorrect'
+      label.classList.add('text-red-500')
+    }
+  }
+}
+
+const questionDisplay = document.getElementById('question-display')
+let correct
+
+const resetQuestionDisplay = () => {
   // Hide next button
   nextButton.classList.add('hidden')
   // Display submit button
   submitButton.classList.remove('hidden')
+  // 
+  for ({label} of choices) {
+    label.classList.remove('text-red-500')
+  }
+}
+
+const displayNewQuestion = () => {
+  resetQuestionDisplay()
+  // Display image based on index
+  imgDisplay.src = gameImages[index].img
   // Correct answer + random 3 choices
   let answerIndexList = getRandomAnswers(index)
   // Reference to correct answer
-  const correct = gameImages[index].game
-  
+  correct = gameImages[index].game
+
   // Generate radio buttons for choices
   answerIndexList.forEach((answerIndex , index) => {
-    const choice = document.getElementById(`choice${index + 1}`)
-    const label = document.getElementById(`label-choice${index + 1}`)
+    const {choice, label} = choices[index]
     
     choice.setAttribute('value', gameTitles[answerIndex])
     label.innerText = gameTitles[answerIndex]
     
-    // Check first radio button as default
     if (index === 0)
-      choice.setAttribute('checked', true)
+      choice.checked = true
+    else 
+      choice.checked = false
   })
+}
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    let data = new FormData(form)
-    let answer
+const handleSubmit = (e) => {
+  e.preventDefault()
+  let data = new FormData(form)
+  let answer
   
-    // get checked value
-    for (const [name, value] of data) {
-      answer = value
-    }
-  
-    if (answer === correct) {
-      handleCorrect()
-    } 
-    
-    submitButton.classList.add('hidden')
-    displayNextButton()
+  // get checked value
+  for (const [name, value] of data) {
+    answer = value
+  }
+
+  if (answer === correct) {
+    handleCorrect()
+  } else {
+    handleIncorrect(answer)
   }
   
-  form.addEventListener('submit', handleSubmit, false)
+  submitButton.classList.add('hidden')
+  displayNextButton()
 }
+
+form.addEventListener('submit', handleSubmit, false)
 
 // Returns: list of 4 indexes for respective answer
 const getRandomAnswers = (correctIndex) => {
