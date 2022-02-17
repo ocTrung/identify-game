@@ -56,10 +56,6 @@ const displayNextButton = () => {
 const form = document.querySelector('form')
 const submitButton = document.getElementById('submit-button')
 
-const handleCorrect = () => {
-  correctCount++
-}
-
 const choice1 = document.getElementById('choice1')
 const choice2 = document.getElementById('choice2')
 const choice3 = document.getElementById('choice3')
@@ -73,11 +69,24 @@ const choices = [ {'choice':choice1, 'label':label1},
                   {'choice':choice3, 'label':label3},
                   {'choice':choice4, 'label':label4},]
 
+const correctColor = 'text-green-400'
+const incorrectColor = 'text-red-600'
+
+const handleCorrect = () => {
+  for (const {choice, label} of choices) {
+    if (choice.checked && choice.value === correct) {
+      label.textContent += ' correct'
+      label.classList.add(correctColor)
+    }
+  }
+  correctCount++
+}
+
 const handleIncorrect = (userAnswer) => {
   for (const {choice, label} of choices) {
     if (choice.checked && choice.value === userAnswer) {
       label.textContent += ' incorrect'
-      label.classList.add('text-red-500')
+      label.classList.add(incorrectColor)
     }
   }
 }
@@ -92,7 +101,8 @@ const resetQuestionDisplay = () => {
   submitButton.classList.remove('hidden')
   // 
   for ({label} of choices) {
-    label.classList.remove('text-red-500')
+    label.classList.remove(incorrectColor)
+    label.classList.remove(correctColor)
   }
 }
 
@@ -122,17 +132,17 @@ const displayNewQuestion = () => {
 const handleSubmit = (e) => {
   e.preventDefault()
   let data = new FormData(form)
-  let answer
+  let userChoice
   
   // get checked value
   for (const [name, value] of data) {
-    answer = value
+    userChoice = value
   }
 
-  if (answer === correct) {
+  if (userChoice === correct) {
     handleCorrect()
   } else {
-    handleIncorrect(answer)
+    handleIncorrect(userChoice)
   }
   
   submitButton.classList.add('hidden')
