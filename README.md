@@ -1,21 +1,14 @@
-# Identify the Game Quiz 👾
+# Video Game Quiz 👾
 
-What:
-A quiz game that tests your ability to identify games based on images.
+A quiz game that tests your ability to identify games based on images. This was built with the intention to learn Tailwind CSS and practice vanilla JavaScript and Git.
 
-Why:
-I built this with the intention to learn Tailwind CSS and practice vanilla JavaScript and Git.
-
-Interesting things:
+features:
 - Choice of answers for each question is randomly generated from a list of included games in the quiz.
 - Image sources are from IMGUR because they allow cross site origin requests.
 
-
-Todo:
+## Todo
 - add play again button
 - style results display
-- new order of questions for new game
-
 
 completed:
 - add feedback for correct/incorrect
