@@ -75,7 +75,7 @@ const incorrectColor = 'text-red-600'
 const handleCorrect = () => {
   for (const {choice, label} of choices) {
     if (choice.checked && choice.value === correct) {
-      label.textContent += ' correct'
+      label.textContent += ' ' + '(Correct)'
       label.classList.add(correctColor)
     }
   }
@@ -85,7 +85,7 @@ const handleCorrect = () => {
 const handleIncorrect = (userAnswer) => {
   for (const {choice, label} of choices) {
     if (choice.checked && choice.value === userAnswer) {
-      label.textContent += ' incorrect'
+      label.textContent += ' ' + '(Incorrect)'
       label.classList.add(incorrectColor)
     }
   }
