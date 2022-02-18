@@ -17,13 +17,16 @@ const gameImages = [
   }
 ]
 
+const startButton = document.getElementById('start-btn')
+startButton.onclick = init
+
 const menu = document.querySelector('.menu')
 const quizContainer = document.querySelector('.quiz-container')
 let index = 0
 let correctCount = 0
 
 // Starts a fresh game
-const init = () => {
+function init() {
   menu.classList.add('hidden')
   quizContainer.classList.remove('hidden')
   
@@ -32,81 +35,20 @@ const init = () => {
   displayNewQuestion()
 }
 
-const startButton = document.getElementById('start-btn')
-startButton.onclick = init
-
-const imgDisplay = document.getElementById('img-display')
+let correct = 0
 const answersDisplay = document.getElementById('answers-display')
 const gameTitles = gameImages.map(({game}) => game)
+const imgDisplay = document.getElementById('img-display')
+const choiceElements = Array.from(document.querySelectorAll('.choice'))
+const choiceLabelElements = Array.from(document.querySelectorAll('.choice-label'))
+const numChoices = choiceElements.length
+const choices = []
 
-const nextButton = document.getElementById('next-button')
-const handleNext = () => {
-  if (isGameOver()) {
-    displayResults()
-  } else {
-    index++
-    displayNewQuestion()
-  }
-}
-nextButton.addEventListener('click', handleNext)
-const displayNextButton = () => {
-  nextButton.classList.remove('hidden')  
+for(let i = 0; i < numChoices; i++) {
+  choices.push({choice: choiceElements[i], label: choiceLabelElements[i]})
 }
 
-const form = document.querySelector('form')
-const submitButton = document.getElementById('submit-button')
-
-const choice1 = document.getElementById('choice1')
-const choice2 = document.getElementById('choice2')
-const choice3 = document.getElementById('choice3')
-const choice4 = document.getElementById('choice4')
-const label1 = document.getElementById('choice-label1')
-const label2 = document.getElementById('choice-label2')
-const label3 = document.getElementById('choice-label3')
-const label4 = document.getElementById('choice-label4')
-const choices = [ {'choice':choice1, 'label':label1},
-                  {'choice':choice2, 'label':label2},
-                  {'choice':choice3, 'label':label3},
-                  {'choice':choice4, 'label':label4},]
-
-const correctColor = 'text-green-400'
-const incorrectColor = 'text-red-600'
-
-const handleCorrect = () => {
-  for (const {choice, label} of choices) {
-    if (choice.checked && choice.value === correct) {
-      label.textContent += ' ' + '(Correct)'
-      label.classList.add(correctColor)
-    }
-  }
-  correctCount++
-}
-
-const handleIncorrect = (userAnswer) => {
-  for (const {choice, label} of choices) {
-    if (choice.checked && choice.value === userAnswer) {
-      label.textContent += ' ' + '(Incorrect)'
-      label.classList.add(incorrectColor)
-    }
-  }
-}
-
-const questionDisplay = document.getElementById('question-display')
-let correct
-
-const resetQuestionDisplay = () => {
-  // Hide next button
-  nextButton.classList.add('hidden')
-  // Display submit button
-  submitButton.classList.remove('hidden')
-  // 
-  for ({label} of choices) {
-    label.classList.remove(incorrectColor)
-    label.classList.remove(correctColor)
-  }
-}
-
-const displayNewQuestion = () => {
+function displayNewQuestion() {
   resetQuestionDisplay()
   // Display image based on index
   imgDisplay.src = gameImages[index].img
@@ -129,7 +71,45 @@ const displayNewQuestion = () => {
   })
 }
 
-const handleSubmit = (e) => {
+const nextButton = document.getElementById('next-button')
+const submitButton = document.getElementById('submit-button')
+
+function resetQuestionDisplay() {
+  // Hide next button
+  nextButton.classList.add('hidden')
+  // Display submit button
+  submitButton.classList.remove('hidden')
+  // 
+  for ({label} of choices) {
+    label.classList.remove(incorrectColor)
+    label.classList.remove(correctColor)
+  }
+}
+
+// Returns: list of 4 indexes for respective answer
+function getRandomAnswers(correctIndex) {
+  let getRandIndex = () => Math.floor(Math.random() * gameImages.length)
+  let randomAnswers = [correctIndex]
+  const numChoices = 4
+  let randIndex
+
+  while (randomAnswers.length < numChoices) {
+    randIndex = getRandIndex()
+    if (!randomAnswers.includes(randIndex))
+      randomAnswers.push(randIndex)
+    randIndex = getRandIndex()
+  }
+  return sortAnswersRandom(randomAnswers)
+}
+
+function sortAnswersRandom(list) {
+  return list.sort((a,b) => Math.floor(Math.random() * 2) - 1)
+}
+
+const form = document.querySelector('form')
+form.addEventListener('submit', handleSubmit, false)
+
+function handleSubmit(e) {
   e.preventDefault()
   let data = new FormData(form)
   let userChoice
@@ -149,38 +129,67 @@ const handleSubmit = (e) => {
   displayNextButton()
 }
 
-form.addEventListener('submit', handleSubmit, false)
+function displayNextButton() {
+  nextButton.classList.remove('hidden')  
+}
 
-// Returns: list of 4 indexes for respective answer
-const getRandomAnswers = (correctIndex) => {
-  let getRandIndex = () => Math.floor(Math.random() * gameImages.length)
-  let randomAnswers = [correctIndex]
-  const numChoices = 4
-  let randIndex
+nextButton.addEventListener('click', handleNext)
 
-  while (randomAnswers.length < numChoices) {
-    randIndex = getRandIndex()
-    if (!randomAnswers.includes(randIndex))
-      randomAnswers.push(randIndex)
-    randIndex = getRandIndex()
+function handleNext() {
+  if (isGameOver()) {
+    displayResults()
+  } else {
+    index++
+    displayNewQuestion()
   }
-  return sortAnswersRandom(randomAnswers)
 }
 
-const sortAnswersRandom = (list) => {
-  return list.sort((a,b) => Math.floor(Math.random() * 2) - 1)
+const correctColor = 'text-green-500'
+
+function handleCorrect() {
+  for (const {choice, label} of choices) {
+    if (choice.checked && choice.value === correct) {
+      label.textContent += ' ' + '(Correct)'
+      label.classList.add(correctColor)
+    }
+  }
+  correctCount++
 }
 
-const isGameOver = () => {
+const incorrectColor = 'text-red-600'
+
+function handleIncorrect(userAnswer) {
+  for (const {choice, label} of choices) {
+    if (choice.checked && choice.value === userAnswer) {
+      label.textContent += ' ' + '(Incorrect)'
+      label.classList.add(incorrectColor)
+    }
+  }
+}
+
+function isGameOver() {
   return index === gameImages.length -1
 }
 
-const displayResults = () => {
-  const results = document.getElementById('results')
-  const resultsContainer = document.querySelector('.results-container')
+const results = document.getElementById('results')
+const resultsContainer = document.querySelector('.results-container')
 
+function displayResults() {
   quizContainer.classList.add('hidden')
   resultsContainer.classList.remove('hidden')
 
   results.textContent = `You got ${correctCount}/${gameImages.length} correct`
+
+  const restartButton = document.getElementById('restart-button')
+  restartButton.addEventListener('click', handleRestart)
+  resultsContainer.append(restartButton)
+}
+
+function handleRestart() {
+  init()
+  clearResultsDisplay()
+}
+
+function clearResultsDisplay() {
+  resultsContainer.classList.add('hidden')
 }
