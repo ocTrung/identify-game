@@ -14,6 +14,14 @@ const gameImages = [
   {
     img: 'https://i.imgur.com/4UqEVSK.png',
     game: 'Pokemon'
+  },
+  {
+    img: 'https://i.imgur.com/qH7k9Y2.png',
+    game: 'Starcraft'
+  },
+  {
+    img: 'https://i.imgur.com/Ys1ABtY.png',
+    game: 'Stardew Valley'
   }
 ]
 
