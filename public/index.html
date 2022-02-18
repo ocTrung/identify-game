@@ -10,7 +10,7 @@
 </head>
 <body>
   <div class="game-container flex justify-center items-center h-screen">
-    <div class="quiz-container hidden grid grid-cols-1 grid-rows-pancake p-8 bg-gray-800 rounded-lg min-w-min">
+    <div class="quiz-container grid grid-cols-1 grid-rows-pancake p-8 bg-gray-800 rounded-lg min-w-min hidden">
       <h2 id="question-display" class="justify-self-center text-4xl">What game is this from?</h2>
       <img class="max-h-48 justify-self-center mt-12 mb-12" id="img-display" src="">
       <div id="answers-display">
@@ -18,19 +18,19 @@
           <div class="flex flex-col">
             <span class="m-1">
               <input type="radio" id="choice1" name="answer">
-              <label for="choice1" id="label-choice1" class="text-lg"></label> 
+              <label for="choice1" id="choice-label1" class="text-lg"></label> 
             </span>
             <span class="m-1">
               <input type="radio" id="choice2" name="answer">
-              <label for="choice2" id="label-choice2" class="text-lg"></label>
+              <label for="choice2" id="choice-label2" class="text-lg"></label>
             </span>
             <span class="m-1">
               <input type="radio" id="choice3" name="answer">
-              <label for="choice3" id="label-choice3" class="text-lg"></label>
+              <label for="choice3" id="choice-label3" class="text-lg"></label>
             </span>
             <span class="m-1">
               <input type="radio" id="choice4" name="answer">
-              <label for="choice4" id="label-choice4" class="text-lg"></label>
+              <label for="choice4" id="choice-label4" class="text-lg"></label>
             </span>
           </div>
           <div>
@@ -42,7 +42,7 @@
     </div>
     <div class="menu flex flex-col justify-center items-center"> 
       <h1 id="title" class="text-4xl mb-2">Identify the games</h1>
-      <h2 id="title" class="text-xl mb-2">from images</h2>
+      <h2 id="subtitle" class="text-xl mb-2">from images</h2>
       <button id="start-btn" class="text-4xl rounded-lg bg-purple-600 hover:bg-purple-700 p-3">Start :)</button>
     </div>
     <div class="results-container hidden">

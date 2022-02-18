@@ -60,10 +60,10 @@ const choice1 = document.getElementById('choice1')
 const choice2 = document.getElementById('choice2')
 const choice3 = document.getElementById('choice3')
 const choice4 = document.getElementById('choice4')
-const label1 = document.getElementById('label-choice1')
-const label2 = document.getElementById('label-choice2')
-const label3 = document.getElementById('label-choice3')
-const label4 = document.getElementById('label-choice4')
+const label1 = document.getElementById('choice-label1')
+const label2 = document.getElementById('choice-label2')
+const label3 = document.getElementById('choice-label3')
+const label4 = document.getElementById('choice-label4')
 const choices = [ {'choice':choice1, 'label':label1},
                   {'choice':choice2, 'label':label2},
                   {'choice':choice3, 'label':label3},
